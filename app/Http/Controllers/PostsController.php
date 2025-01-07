@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 class PostsController extends Controller
 {
@@ -15,7 +16,8 @@ class PostsController extends Controller
     public function index()
     {
         // $posts=Post::all();
-        $posts=Post::latest()->get();//or Post::orderBy('created_at','desc')->get()// 
+        
+        $posts=Post::with('user')->latest()->get();//or Post::orderBy('created_at','desc')->get()// 
         // $posts=Post::latest()-->paginate(2);  to make two posts in page, in index blade add links
         return view('postes.index',["posts" => $posts]);
     }
@@ -80,23 +82,23 @@ class PostsController extends Controller
     {
         
         $post = Post::find($id);
-        $validated = $request->validate([
+        $request->validate([
             "title" => "required|string",
             "description"=>"required|string",
             "img_path"=>"nullable|image|mimes:jpg,jpeg,png"
         ]);
         $path=null;
-        if(asset(request()->img_path)){
-            Storage::disk('public')->delete($post->img_path);
-            $path=Storage::disk('public')->put('posts_images',request()->image);
-            dd($request->$path);
+        if ($request->hasFile('image')) {
+            Storage::disk('storage/posts_images')->delete($post->img_path);
+            $path = Storage::disk('storage/posts_images')->put('posts_images', $request->file('image'));
             $post->update([
                 "title"=>$request->title,
                 "description"=>$request->description,
-                "img_path"=>$request->$path
+                "img_path"=>$path
             ]);
             return to_route('postes.show',$id)->with('success','the post are updated succussfuly (^_^)');
         }
+        
         return redirect()->route('postes.index');
     }
 
@@ -109,7 +111,7 @@ class PostsController extends Controller
     //     $post->delete();
     //     return redirect()->route('postes.index');
     // }
-    public function destroy(POST $post)
+    public function destroy(Post $post)
     {
         $post->delete();
         return redirect()->route('postes.index');

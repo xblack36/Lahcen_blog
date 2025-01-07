@@ -12,7 +12,7 @@
             @endif
             
             <div class="card-body">
-                <h5 class="card-title text-danger">id : <span class="text-black">{{ $post->id }}</span></h5> 
+                {{-- <h5 class="card-title text-danger">id : <span class="text-black">{{ $post->id }}</span></h5>  --}}
                 <h5 class="card-title text-danger">title : <span class="text-black">{{ $post->title }}</span></h5>
                 <h5 class="card-text text-danger">description : <span class="text-black">{{ $post->description }}.</span></h5>
                 <a href="{{ route('postes.index') }}" class="btn btn-primary mt-2">Go back to all posts</a>

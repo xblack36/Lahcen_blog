@@ -22,7 +22,7 @@
             <div class="d-flex justify-content-center align-items-center mx-auto ">
               <div>
                 <label >image :</label>
-                <img  src="{{asset('/storage/'.$post->img_path)  }}" style="height:100px;width:100px !important">
+                <img  src="{{asset('/storage/'.$post->img_path)  }}" style="height:100px;width:100px !important;border-radius:50% !important" alt="">
                 <label style="margin-right: 10px !important" for="img">change image </label>
                 <input id="img" name="image" type="file">
               </div>

@@ -1,4 +1,4 @@
-@props(['propName'])
+{{-- @props(['propName']) --}}
 <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
       <a class="navbar-brand link-primary" href="{{ route('postes.index') }}">{Lahcen=>#_Blog}</a>
